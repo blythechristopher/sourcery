@@ -15,6 +15,7 @@ contract Governor is Ownable {
     string description;
     uint256 date;
     uint256 votes;
+    address wallet;
     bool approved;
   }
 
@@ -56,6 +57,7 @@ contract Governor is Ownable {
       _description,
       block.timestamp,
       0,
+      msg.sender,
       false
     );
     projectCount++;
@@ -74,6 +76,10 @@ contract Governor is Ownable {
       projects[_projectId].date + VOTING_PERIOD > block.timestamp,
       "Vote period has ended"
     );
+    require(
+      projects[_projectId].wallet != msg.sender,
+      "Cannot vote for your own project"
+    );
 
     for (uint256 i = 0; i < projects[_projectId].votes; ++i) {
       if (votes[_projectId][i] == msg.sender) {
@@ -84,7 +90,10 @@ contract Governor is Ownable {
     projects[_projectId].votes += 1;
     votes[_projectId].push(msg.sender);
 
-    if ((projects[_projectId].votes / memberCount) * 100 >= quorum) {
+    if (
+      memberCount > 1 &&
+      (projects[_projectId].votes / (memberCount - 1)) * 100 >= quorum
+    ) {
       projects[_projectId].approved = true;
 
       emit ProjectApproved(_projectId);

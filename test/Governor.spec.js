@@ -61,18 +61,15 @@ describe('Governor', function () {
 
     await governor.connect(addrs[0]).propose('Test Name', 'Test Description');
 
-    await governor.connect(addrs[0]).vote(0);
-
-    project = await governor.getProject(0);
-
-    expect(project.votes).to.equal(1);
-    expect(project.approved).to.equal(false);
+    await expect(governor.connect(addrs[0]).vote(0)).to.be.revertedWith(
+      'Cannot vote for your own project'
+    );
 
     await governor.connect(addrs[1]).vote(0);
 
     project = await governor.getProject(0);
 
-    expect(project.votes).to.equal(2);
+    expect(project.votes).to.equal(1);
     expect(project.approved).to.equal(true);
 
     await expect(governor.connect(addrs[0]).vote(0)).to.be.revertedWith(
@@ -83,10 +80,11 @@ describe('Governor', function () {
   it('Prevents members from voting on projects after period ends', async () => {
     await governor.register('Test', 'test@email.com', addrs[0].address);
     await governor.register('Test 2', 'test2@email.com', addrs[1].address);
+    await governor.register('Test 3', 'test3@email.com', addrs[2].address);
 
     await governor.connect(addrs[0]).propose('Test Name', 'Test Description');
 
-    await governor.connect(addrs[0]).vote(0);
+    await governor.connect(addrs[1]).vote(0);
 
     const VOTING_PERIOD = (await governor.VOTING_PERIOD()).toNumber();
 
