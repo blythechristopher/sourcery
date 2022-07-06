@@ -6,7 +6,7 @@ require('dotenv').config();
 
 const {
   MAINNET_RPC_URL,
-  RINKEBY_RPC_URL,
+  GOERLI_RPC_URL,
   PRIVATE_KEY,
   ETHERSCAN_API_KEY,
   COINMARKETCAP_API_KEY,
@@ -32,8 +32,8 @@ module.exports = {
       gas: 8000000,
       gasPrice: 875000000,
     },
-    rinkeby: {
-      url: RINKEBY_RPC_URL,
+    goerli: {
+      url: GOERLI_RPC_URL,
       accounts: [PRIVATE_KEY],
       timeout: 10000000,
     },

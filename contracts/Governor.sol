@@ -114,6 +114,12 @@ contract Governor is Ownable {
   }
 
   function getProject(uint256 _projectId) public view returns (Project memory) {
+    require(
+      keccak256(abi.encodePacked(projects[_projectId].name)) !=
+        keccak256(abi.encodePacked("")),
+      "Project does not exist"
+    );
+
     return projects[_projectId];
   }
 
