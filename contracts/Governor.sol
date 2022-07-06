@@ -104,7 +104,7 @@ contract Governor is Ownable {
     Project[] memory result = new Project[](projectCount);
 
     for (uint256 i = 0; i < projectCount; ++i) {
-      Project storage project = projects[i];
+      Project memory project = projects[i];
       result[i] = project;
     }
 
@@ -115,7 +115,7 @@ contract Governor is Ownable {
     Member[] memory result = new Member[](memberCount);
 
     for (uint256 i = 0; i < memberCount; ++i) {
-      Member storage member = members[i];
+      Member memory member = members[i];
       result[i] = member;
     }
 
