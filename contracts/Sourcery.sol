@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Governor is Ownable {
+contract Sourcery is Ownable {
   struct Member {
     string name;
     string email;

@@ -1,12 +1,12 @@
 const hre = require('hardhat');
 
 async function main() {
-  const Governor = await hre.ethers.getContractFactory('Governor');
-  const governor = await Governor.deploy();
+  const Sourcery = await hre.ethers.getContractFactory('Sourcery');
+  const sourcery = await Sourcery.deploy();
 
-  await governor.deployed();
+  await sourcery.deployed();
 
-  console.log('Governor deployed to:', governor.address);
+  console.log('Sourcery deployed to:', sourcery.address);
 }
 
 main()
