@@ -63,9 +63,10 @@ contract Sourcery is Ownable {
       msg.sender,
       false
     );
-    projectCount++;
 
     emit NewProjectProposed(msg.sender, projectCount, _name, _description);
+
+    projectCount++;
   }
 
   function vote(uint256 _projectId) external onlyMembers(msg.sender) {
