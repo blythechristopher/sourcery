@@ -11,6 +11,7 @@ contract Sourcery is Ownable {
   }
 
   struct Project {
+    uint256 id;
     string name;
     string description;
     uint256 date;
@@ -42,6 +43,7 @@ contract Sourcery is Ownable {
 
   event NewProjectProposed(
     address indexed _from,
+    uint256 indexed _projectId,
     string _name,
     string _description
   );
@@ -53,6 +55,7 @@ contract Sourcery is Ownable {
     onlyMembers(msg.sender)
   {
     projects[projectCount] = Project(
+      projectCount,
       _name,
       _description,
       block.timestamp,
@@ -62,7 +65,7 @@ contract Sourcery is Ownable {
     );
     projectCount++;
 
-    emit NewProjectProposed(msg.sender, _name, _description);
+    emit NewProjectProposed(msg.sender, projectCount, _name, _description);
   }
 
   function vote(uint256 _projectId) external onlyMembers(msg.sender) {
